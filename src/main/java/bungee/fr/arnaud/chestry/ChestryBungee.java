@@ -1,25 +1,29 @@
 package bungee.fr.arnaud.chestry;
 
+import bungee.fr.arnaud.chestry.backend.docker.docker.DockerUtils;
 import bungee.fr.arnaud.chestry.backend.docker.pluginmessage.BungeePluginMessageHandler;
-import bungee.fr.arnaud.chestry.backend.mongodb.MongoDB;
 import bungee.fr.arnaud.chestry.backend.multithreading.MultiThreading;
-import bungee.fr.arnaud.chestry.frontend.commands.BungeeDockerCommand;
+import bungee.fr.arnaud.chestry.frontend.commands.BungeeCommand;
+import commons.mongodb.MongoDB;
+import commons.utils.ServerUtils;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class ChestryBungee extends Plugin {
 
     private static ChestryBungee instance;
-    private MultiThreading multiThreading = new MultiThreading();
-    private MongoDB mongoDB = new MongoDB();
+    private final MultiThreading multiThreading = new MultiThreading();
+    private final MongoDB mongoDB = new MongoDB();
+    private final DockerUtils dockerUtils = new DockerUtils();
+    private final ServerUtils serverUtils = new ServerUtils();
 
     @Override
     public void onEnable() {
 
         instance = this;
 
-        getProxy().registerChannel( "chestry:bungee" );
+        getProxy().registerChannel( System.getenv("pm_bungee_channel"));
         getProxy().getPluginManager().registerListener(this, new BungeePluginMessageHandler());
-        getProxy().getPluginManager().registerCommand(this, new BungeeDockerCommand());
+        getProxy().getPluginManager().registerCommand(this, new BungeeCommand());
 
         mongoDB.connect();
         multiThreading.enableMultiThreading();
@@ -40,5 +44,13 @@ public class ChestryBungee extends Plugin {
 
     public MongoDB getMongoDB() {
         return mongoDB;
+    }
+
+    public DockerUtils getDockerUtils() {
+        return dockerUtils;
+    }
+
+    public ServerUtils getServerUtils() {
+        return serverUtils;
     }
 }

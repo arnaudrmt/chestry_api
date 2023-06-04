@@ -1,31 +1,52 @@
 package bungee.fr.arnaud.chestry.backend.ovh;
 
+import bungee.fr.arnaud.chestry.backend.ovh.api.OvhApi;
+import bungee.fr.arnaud.chestry.backend.ovh.api.OvhApiException;
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
+
+import java.util.Map;
 
 public class OvhDomain {
 
-    String endpoint = "ovh-eu";
-    String appKey = "e1f988080fb90a87";
-    String appSecret = "1122ed6c9cc5c7b411a6624d034df9f9";
-    String consumerKey = "1eccfcfa304cf01ce7761032b454eb92";
+    String endpoint = System.getenv("ovh_endpoint");
+    String appKey = System.getenv("ovh_appKey");
+    String appSecret = System.getenv("ovh_appSecret");
+    String consumerKey = System.getenv("ovh_consumerKey");
 
     OvhApi api = new OvhApi(endpoint, appKey, appSecret, consumerKey);
 
-    public void registerRecord(String name, int port) {
+    // Registering a DNS Entry
+
+    public void registerDnsEntry(String name, int port) {
 
         try {
 
-            String body = new OvhRequest().createRequest(ImmutableMap.of(
+            // Creating the HTTP Request
+
+            String body = createRequest(ImmutableMap.of(
                     "ttl", 0,
                     "fieldType", "SRV",
                     "target", "5 5 " + port + " play.chestry.io.",
                     "subDomain", "_minecraft._tcp." + name)
             );
 
+            // Sending the request
+
             api.post("/domain/zone/chestry.io/record", body, true);
 
         } catch (OvhApiException e) {
             e.printStackTrace();
         }
+    }
+
+    // Method that helps create OVH Api request
+
+    public <T> String createRequest(Map<T, T> args) {
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(args);
+
+        return jsonString;
     }
 }

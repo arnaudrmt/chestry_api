@@ -51,6 +51,11 @@ public class VersionsManager {
         return mainVersions.stream().filter(v -> v.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
+    public VersionType getVersionTypeFromName(String name) {
+
+        return versionTypes.stream().filter(vt -> vt.getName().contains(name)).findFirst().orElse(null);
+    }
+
     public List<SubVersion> getSubVersions() {
         return subVersions;
     }

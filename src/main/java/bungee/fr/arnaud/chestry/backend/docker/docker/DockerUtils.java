@@ -12,15 +12,12 @@ import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.google.common.collect.ImmutableMap;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.util.concurrent.ExecutorService;
+import java.util.UUID;
 
 public class DockerUtils {
 
-    DockerClient dockerClient;
-
-    private ExecutorService executorService;
+    private final DockerClient dockerClient;
+    private final ChestryBungee chestryBungee = ChestryBungee.getInstance();
 
     public DockerUtils() {
         dockerClient = DockerClientBuilder.getInstance().build();
@@ -28,15 +25,20 @@ public class DockerUtils {
 
     public void createContainer(String img, String uuid, String customIP) {
 
-        ChestryBungee.getInstance().getMultiThreading().getExecutorService().submit(() -> {
+        chestryBungee.getMultiThreading().getExecutorService().submit(() -> {
 
-            int availablePort = getRandomPort();
-            String name = img + "_" + availablePort;
+            // Getting a random port available in the range 26000 - 50000
+            int availablePort = chestryBungee.getServerUtils().getRandomAvailablePort(26000, 50000);
 
+            // Setting a random uuid for the container
+            String name = UUID.randomUUID().toString();
+
+            // Exposing the container 25565 port
             ExposedPort tcp25565 = ExposedPort.tcp(25565);
             Ports portBindings = new Ports();
             portBindings.bind(tcp25565, Ports.Binding.bindPort(availablePort));
 
+            // Creating the container with default settings
             CreateContainerResponse containerResponse = dockerClient.createContainerCmd(img)
                     .withName(name)
                     .withExposedPorts(tcp25565)
@@ -64,8 +66,10 @@ public class DockerUtils {
                             "motd=A New Minecraft Server")
                     .exec();
 
+            // Starting the container
             dockerClient.startContainerCmd(containerResponse.getId()).exec();
 
+            // Putting the info into mongoDB
             ChestryBungee.getInstance().getMongoDB().addServer(name, availablePort, uuid, customIP, ImmutableMap.of(uuid, "admin"));
         });
     }
@@ -90,28 +94,7 @@ public class DockerUtils {
             RemoveContainerCmd removeCmd = dockerClient.removeContainerCmd(name);
             removeCmd.exec();
         } catch (NotFoundException e) {
-            // The container does not exist
-            System.out.println("Container not found: " + name);
+            e.printStackTrace();
         }
-    }
-
-    public static int getRandomPort() {
-        for (int i = 0; i < 1000; i++) {
-            int port = 26000 + (int) (Math.random() * (50000 - 26000 + 1));
-
-            try {
-
-                if(!ChestryBungee.getInstance().getMongoDB().portIsUsed(port)) {
-                    // Check if the port is available for general use
-                    ServerSocket serverSocket = new ServerSocket(port);
-                    serverSocket.close();
-                    return port;
-                }
-
-            } catch (IOException e) {
-            }
-        }
-
-        throw new RuntimeException("Unable to find an available port within the specified range.");
     }
 }

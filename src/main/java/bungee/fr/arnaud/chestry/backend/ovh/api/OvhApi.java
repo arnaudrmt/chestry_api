@@ -1,4 +1,4 @@
-package bungee.fr.arnaud.chestry.backend.ovh;
+package bungee.fr.arnaud.chestry.backend.ovh.api;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

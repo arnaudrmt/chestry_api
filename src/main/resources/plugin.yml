@@ -4,4 +4,4 @@ version: 1.0-SNAPSHOT
 depend:
   - ProtocolLib
 commands:
-  test:
+  bukkit:

@@ -1,22 +1,22 @@
 package bukkit.fr.arnaud.chestry;
 
-import bukkit.fr.arnaud.chestry.hub.commands.TestCommand;
-import bukkit.fr.arnaud.chestry.hub.events.PreLoginEvent;
+import bukkit.fr.arnaud.chestry.hub.commands.BukkitCommand;
+import bukkit.fr.arnaud.chestry.hub.events.PetsEvent;
 import bukkit.fr.arnaud.chestry.hub.events.UtilsEvent;
-import bukkit.fr.arnaud.chestry.hub.mongodb.MongoDB;
-import bukkit.fr.arnaud.chestry.hub.packets.PacketListener;
+import bukkit.fr.arnaud.chestry.hub.pets.PetsManager;
 import bukkit.fr.arnaud.chestry.hub.versions.VersionsManager;
 import bukkit.fr.arnaud.chestry.messaging.pluginmessage.BukkitPluginMessageHandler;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import org.bukkit.Bukkit;
+import commons.mongodb.MongoDB;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ChestryBukkit extends JavaPlugin {
 
     private static ChestryBukkit instance;
-    private VersionsManager versionsAvailableManager = new VersionsManager();
-    private MongoDB mongoDB = new MongoDB();
+    private final VersionsManager versionsManager = new VersionsManager();
+    private final PetsManager petsManager = new PetsManager();
+    private final MongoDB mongoDB = new MongoDB();
     private ProtocolManager protocolManager;
 
     @Override
@@ -24,26 +24,18 @@ public class ChestryBukkit extends JavaPlugin {
 
         instance = this;
 
-        // Register the custom channel
         getServer().getMessenger().registerIncomingPluginChannel( this, "chestry:bukkit", new BukkitPluginMessageHandler());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "chestry:bungee");
-        getCommand("test").setExecutor(new TestCommand());
+
+        getCommand("bukkit").setExecutor(new BukkitCommand());
 
         getServer().getPluginManager().registerEvents(new UtilsEvent(), this);
-        getServer().getPluginManager().registerEvents(new PreLoginEvent(), this);
-        getServer().getPluginManager().registerEvents(new PacketListener(), this);
-
-        new PacketListener().listenMovement();
+        getServer().getPluginManager().registerEvents(new PetsEvent(), this);
 
         getMongoDB().connect();
 
         getVersionsManager().importVersionsFromMongoDB();
-
-        Bukkit.getWorlds().forEach(w -> {
-            w.setStorm(false);
-            w.setThundering(false);
-            w.setWeatherDuration(99999);
-        });
+        getPetsManager().addAllToPetList();
     }
 
     @Override
@@ -56,7 +48,7 @@ public class ChestryBukkit extends JavaPlugin {
     }
 
     public VersionsManager getVersionsManager() {
-        return versionsAvailableManager;
+        return versionsManager;
     }
 
     public MongoDB getMongoDB() {
@@ -65,5 +57,9 @@ public class ChestryBukkit extends JavaPlugin {
 
     public ProtocolManager getProtocolManager() {
         return protocolManager;
+    }
+
+    public PetsManager getPetsManager() {
+        return petsManager;
     }
 }

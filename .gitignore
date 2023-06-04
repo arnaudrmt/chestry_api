@@ -37,7 +37,5 @@ build/
 ### Mac OS ###
 .DS_Store
 
-
 ### Environment Files ###
-src/main/java/bungee/fr/arnaud/chestry/utils/Variables.java
-src/main/java/bukkit/fr/arnaud/chestry/utils/Variables.java
+src/main/java/commons/utils/EnvVariables.java

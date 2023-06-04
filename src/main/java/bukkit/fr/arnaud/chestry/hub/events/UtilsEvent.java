@@ -6,8 +6,6 @@ import bukkit.fr.arnaud.chestry.hub.versions.VersionType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -25,15 +23,6 @@ public class UtilsEvent implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDamageEvent e) {
-
-        if(!(e.getEntity() instanceof Player)) return;
-
-        ((Player) e.getEntity()).setHealth(20);
-        e.setCancelled(true);
-    }
-
-    @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent e) {
         if(!(e.getInventory() instanceof PlayerInventory)) e.setCancelled(true);
     }
@@ -45,11 +34,5 @@ public class UtilsEvent implements Listener {
 
         VersionType versionType = ChestryBukkit.getInstance().getVersionsManager().getVersionTypesFromName("Vanilla", "Stable");
         new VersionGUI(e.getPlayer(), versionType, e.getMessage()).open();
-    }
-
-    @EventHandler
-    public void onBookEdit(SignChangeEvent e) {
-
-        System.out.println("here");
     }
 }
