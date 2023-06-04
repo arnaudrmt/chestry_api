@@ -12,6 +12,7 @@ import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.google.common.collect.ImmutableMap;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class DockerUtils {
@@ -23,7 +24,7 @@ public class DockerUtils {
         dockerClient = DockerClientBuilder.getInstance().build();
     }
 
-    public void createContainer(String img, String uuid, String customIP) {
+    public void createContainer(String img, String versionType, String uuid, String customIP) {
 
         chestryBungee.getMultiThreading().getExecutorService().submit(() -> {
 
@@ -69,8 +70,9 @@ public class DockerUtils {
             // Starting the container
             dockerClient.startContainerCmd(containerResponse.getId()).exec();
 
-            // Putting the info into mongoDB
-            ChestryBungee.getInstance().getMongoDB().addServer(name, availablePort, uuid, customIP, ImmutableMap.of(uuid, "admin"));
+            // Putting the info into MongoDB
+            ChestryBungee.getInstance().getMongoDB().addServer(name, customIP, availablePort, versionType, new Date(),
+                    UUID.fromString(uuid), ImmutableMap.of(UUID.fromString(uuid), "admin"));
         });
     }
 

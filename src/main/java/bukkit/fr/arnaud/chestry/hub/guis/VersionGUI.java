@@ -71,7 +71,7 @@ public class VersionGUI extends AbstractGUI {
         mainVersionList.sort(Comparator.comparing((MainVersion v) ->
                 Integer.parseInt(v.getName().substring(v.getName().indexOf(".") + 1))).reversed());
 
-        ItemStack searchItem = new ItemStackUtils(Material.SIGN, "§rRecharcher", 1).build();
+        ItemStack searchItem = new ItemStackUtils(Material.SIGN, "§rRechercher", 1).build();
         addItem(49, searchItem, (e) -> {
             System.out.println(getPlayer());
             System.out.println(versionType.getName());
@@ -176,7 +176,7 @@ public class VersionGUI extends AbstractGUI {
         ItemStackUtils item = new ItemStackUtils(Material.SKULL_ITEM, name, 1);
         item.setTexture(texture);
 
-        return item.buildSkull();
+        return item.build();
     }
 
     public void searchGUI(String search, List<Integer> mainVersionSlots, List<MainVersion> mainVersionList, List<Integer> versionTypeSlot, List<VersionType> versionTypeList) {
@@ -237,7 +237,6 @@ public class VersionGUI extends AbstractGUI {
         // Remove dots at the start and end of the string
         cleanedInput = cleanedInput.replaceAll("^\\.|\\.$", "");
 
-        System.out.println(cleanedInput);
 
         return cleanedInput;
     }

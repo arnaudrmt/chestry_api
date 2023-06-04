@@ -72,7 +72,6 @@ public class ItemStackUtils {
 
         setMeta((short) SkullType.PLAYER.ordinal());
 
-        // Set the texture of the head item
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", texture));
         Field profileField;
@@ -86,7 +85,7 @@ public class ItemStackUtils {
         }
     }
 
-    public void adEnchantment(Enchantment enchantment, int level) {
+    public void addEnchantment(Enchantment enchantment, int level) {
 
         if(skullMeta == null) itemMeta.addEnchant(enchantment, level, true);
         else skullMeta.addEnchant(enchantment, level, true);
@@ -94,15 +93,9 @@ public class ItemStackUtils {
 
     public ItemStack build() {
 
-        this.itemStack.setItemMeta(itemMeta);
+        if(skullMeta == null) this.itemStack.setItemMeta(itemMeta);
+        else this.itemStack.setItemMeta(skullMeta);
 
         return this.itemStack;
-    }
-
-    public ItemStack buildSkull() {
-
-        this.itemStack.setItemMeta(skullMeta);
-
-        return itemStack;
     }
 }

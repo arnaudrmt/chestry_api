@@ -13,9 +13,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -40,15 +38,17 @@ public class MongoDB {
 
     // BungeeCord Methods
 
-    public void addServer(String name, int port, String player, String ip, Map<String, String> roles) {
+    public void addServer(String name, String ip, int port, String versionType, Date date, UUID player, Map<UUID, String> roles) {
 
         MongoCollection<Document> collection = db.getCollection(System.getenv("mongo_db_servers"));
 
         Document doc = new Document();
         doc.put("name", name);
-        doc.put("port", port);
-        doc.put("player", player);
         doc.put("ip", ip);
+        doc.put("port", port);
+        doc.put("version_type", versionType);
+        doc.put("date_of_creation", date);
+        doc.put("player", player);
         doc.put("roles", roles);
 
         collection.insertOne(doc);

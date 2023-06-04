@@ -100,7 +100,7 @@ public class PetsManager {
             EntityPlayer entityPlayer = craftPlayer.getHandle();
 
             PacketPlayOutSpawnEntityLiving packetPlayOutSpawnEntityLiving = new PacketPlayOutSpawnEntityLiving(entityArmorStand);
-            PacketPlayOutEntityEquipment packetPlayOutEntityEquipment = new PacketPlayOutEntityEquipment(entityArmorStand.getId(), 4, CraftItemStack.asNMSCopy(petItem.buildSkull()));
+            PacketPlayOutEntityEquipment packetPlayOutEntityEquipment = new PacketPlayOutEntityEquipment(entityArmorStand.getId(), 4, CraftItemStack.asNMSCopy(petItem.build()));
 
             PlayerConnection playerConnection = entityPlayer.playerConnection;
 
@@ -124,7 +124,7 @@ public class PetsManager {
         EntityPlayer entityPlayer = craftPlayer.getHandle();
 
         PacketPlayOutSpawnEntityLiving packetPlayOutSpawnEntityLiving = new PacketPlayOutSpawnEntityLiving(entityArmorStand);
-        PacketPlayOutEntityEquipment packetPlayOutEntityEquipment = new PacketPlayOutEntityEquipment(entityArmorStand.getId(), 4, CraftItemStack.asNMSCopy(petItem.buildSkull()));
+        PacketPlayOutEntityEquipment packetPlayOutEntityEquipment = new PacketPlayOutEntityEquipment(entityArmorStand.getId(), 4, CraftItemStack.asNMSCopy(petItem.build()));
 
         PlayerConnection playerConnection = entityPlayer.playerConnection;
 
