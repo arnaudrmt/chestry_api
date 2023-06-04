@@ -5,7 +5,7 @@ import bukkit.fr.arnaud.chestry.hub.events.PetsEvent;
 import bukkit.fr.arnaud.chestry.hub.events.UtilsEvent;
 import bukkit.fr.arnaud.chestry.hub.pets.PetsManager;
 import bukkit.fr.arnaud.chestry.hub.versions.VersionsManager;
-import bukkit.fr.arnaud.chestry.messaging.pluginmessage.BukkitPluginMessageHandler;
+import bukkit.fr.arnaud.chestry.pluginmessage.BukkitPluginMessageHandler;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import commons.mongodb.MongoDB;

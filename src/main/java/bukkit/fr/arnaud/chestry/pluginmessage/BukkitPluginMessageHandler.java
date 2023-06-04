@@ -1,4 +1,4 @@
-package bukkit.fr.arnaud.chestry.messaging.pluginmessage;
+package bukkit.fr.arnaud.chestry.pluginmessage;
 
 import bukkit.fr.arnaud.chestry.ChestryBukkit;
 import com.google.common.io.ByteArrayDataInput;
