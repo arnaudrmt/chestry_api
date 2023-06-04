@@ -1,8 +1,8 @@
 package bungee.fr.arnaud.chestry;
 
-import bungee.fr.arnaud.chestry.backend.docker.docker.DockerUtils;
-import bungee.fr.arnaud.chestry.backend.docker.pluginmessage.BungeePluginMessageHandler;
-import bungee.fr.arnaud.chestry.backend.multithreading.MultiThreading;
+import bungee.fr.arnaud.chestry.backend.docker.DockerUtils;
+import bungee.fr.arnaud.chestry.backend.pluginmessage.BungeePluginMessageHandler;
+import commons.multithreading.MultiThreading;
 import bungee.fr.arnaud.chestry.frontend.commands.BungeeCommand;
 import commons.mongodb.MongoDB;
 import commons.utils.ServerUtils;

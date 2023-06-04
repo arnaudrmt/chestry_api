@@ -1,4 +1,4 @@
-package bungee.fr.arnaud.chestry.backend.multithreading;
+package commons.multithreading;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

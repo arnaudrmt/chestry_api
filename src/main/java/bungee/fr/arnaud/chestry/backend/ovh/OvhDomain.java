@@ -10,9 +10,9 @@ import java.util.Map;
 public class OvhDomain {
 
     String endpoint = System.getenv("ovh_endpoint");
-    String appKey = System.getenv("ovh_appKey");
-    String appSecret = System.getenv("ovh_appSecret");
-    String consumerKey = System.getenv("ovh_consumerKey");
+    String appKey = System.getenv("ovh_app_key");
+    String appSecret = System.getenv("ovh_app_secret");
+    String consumerKey = System.getenv("ovh_consumer_key");
 
     OvhApi api = new OvhApi(endpoint, appKey, appSecret, consumerKey);
 

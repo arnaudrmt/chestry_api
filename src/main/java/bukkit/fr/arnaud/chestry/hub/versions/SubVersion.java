@@ -2,9 +2,9 @@ package bukkit.fr.arnaud.chestry.hub.versions;
 
 public class SubVersion {
 
-    private String name;
-    private MainVersion main_version;
-    private VersionType version_type;
+    private final String name;
+    private final MainVersion main_version;
+    private final VersionType version_type;
 
     public SubVersion(String name, MainVersion main_version, VersionType version_type) {
         this.name = name;

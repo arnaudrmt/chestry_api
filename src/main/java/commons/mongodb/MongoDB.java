@@ -13,6 +13,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,7 +23,6 @@ import java.util.stream.StreamSupport;
 public class MongoDB {
 
     private MongoDatabase db;
-    private MongoCollection<Document> collection;
     private final ChestryBukkit chestryBukkit = ChestryBukkit.getInstance();
     private final ChestryBungee chestryBungee = ChestryBungee.getInstance();
     private final VersionsManager versionsManager = chestryBukkit.getVersionsManager();
@@ -36,13 +36,13 @@ public class MongoDB {
 
         MongoClient client = MongoClients.create("mongodb://" + user + ":" + password + "@" + ip + ":" + port);
         db = client.getDatabase(System.getenv("mongo_db_name"));
-
-        collection = db.getCollection(System.getenv("mongo_db_collection"));
     }
 
     // BungeeCord Methods
 
     public void addServer(String name, int port, String player, String ip, Map<String, String> roles) {
+
+        MongoCollection<Document> collection = db.getCollection(System.getenv("mongo_db_servers"));
 
         Document doc = new Document();
         doc.put("name", name);
@@ -55,6 +55,8 @@ public class MongoDB {
     }
 
     public boolean portIsUsed(int port) {
+
+        MongoCollection<Document> collection = db.getCollection(System.getenv("mongo_db_servers"));
 
         Stream<Document> documentStream = StreamSupport.stream(collection.find().spliterator(), false);
 
@@ -108,7 +110,7 @@ public class MongoDB {
 
                 .map(document -> new SubVersion(document.getString("name"),
                         versionsManager.getMainVersionFromName(document.getString("main_version")),
-                        versionsManager.getVersionTypesFromName(document.getString("version_type"))))
+                        versionsManager.getVersionTypeFromName(document.getString("version_type"))))
 
                 .collect(Collectors.toList());
 
@@ -125,7 +127,8 @@ public class MongoDB {
 
                 .map(document -> new Pet(document.getString("name"), document.getString("display_name"),
                         document.getString("texture"),
-                        versionsManager.getVersionTypeFromName(document.getString("version_type"))))
+                        versionsManager.getVersionTypeFromName(document.getString("version_type")),
+                        (HashMap) document.get("skins")))
 
                 .collect(Collectors.toList());
 

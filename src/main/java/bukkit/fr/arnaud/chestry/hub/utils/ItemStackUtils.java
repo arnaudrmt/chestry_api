@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class ItemStackUtils {
 
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
     private ItemMeta itemMeta;
     private SkullMeta skullMeta;
 

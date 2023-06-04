@@ -3,7 +3,6 @@ package bukkit.fr.arnaud.chestry.hub.utils;
 import bukkit.fr.arnaud.chestry.ChestryBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -59,21 +58,5 @@ public abstract class AbstractGUI implements Listener {
 
     public Player getPlayer() {
         return p;
-    }
-
-    @EventHandler
-    public void handleClickEvent(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-        Inventory inventory = playerInventories.get(player.getUniqueId());
-
-        if (inventory != null && event.getInventory().equals(inventory)) {
-            int slot = event.getRawSlot();
-            if (itemActions.containsKey(slot)) {
-                Consumer<InventoryClickEvent> action = itemActions.get(slot);
-                if (action != null) {
-                    action.accept(event);
-                }
-            }
-        }
     }
 }

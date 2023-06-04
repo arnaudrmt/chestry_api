@@ -1,4 +1,4 @@
-package bungee.fr.arnaud.chestry.backend.docker.pluginmessage;
+package bungee.fr.arnaud.chestry.backend.pluginmessage;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

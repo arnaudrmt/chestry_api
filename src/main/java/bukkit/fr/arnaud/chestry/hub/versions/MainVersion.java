@@ -5,11 +5,11 @@ import java.util.List;
 
 public class MainVersion {
 
-    private String name;
-    private String description;
-    private VersionType version_type;
-    private String texture;
-    private List<SubVersion> sub_versions = new ArrayList<>();
+    private final String name;
+    private final String description;
+    private final VersionType version_type;
+    private final String texture;
+    private final List<SubVersion> sub_versions = new ArrayList<>();
 
     public MainVersion(String name, String description, VersionType version_type, String texture) {
         this.name = name;

@@ -1,4 +1,4 @@
-package bungee.fr.arnaud.chestry.backend.docker.docker;
+package bungee.fr.arnaud.chestry.backend.docker;
 
 import bungee.fr.arnaud.chestry.ChestryBungee;
 import com.github.dockerjava.api.DockerClient;
